@@ -8,6 +8,7 @@ def load_logs(filepath: str) -> list[dict]:
 
     with open(filepath, 'r', encoding='utf-8') as file:
         for line in file:
+            # Do not include empty string.
             if not line.strip():
                 continue
 
@@ -51,17 +52,8 @@ def display_log_counts(counts: dict) -> None:
     print('-----------------|------')
 
     for level in ('INFO', 'DEBUG', 'ERROR', 'WARNING'):
-        if level == 'INFO':
-            color = Fore.GREEN
-        elif level == 'DEBUG':
-            color = Fore.CYAN
-        elif level == 'ERROR':
-            color = Fore.RED
-        else:
-            color = Fore.YELLOW
-
+        color = Fore.RED if level == 'ERROR' else ''
         print(f'{color}{level:<7}{Fore.RESET} | {counts.get(level, 0)}')
-
 
 def main() -> None:
     # Check whether path to the log file is given.
